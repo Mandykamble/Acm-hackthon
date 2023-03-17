@@ -1,42 +1,47 @@
-import React, { useState, useEffect } from "react";
-import getWeb3 from "./getWeb3";
-import Djob from "./contracts/Djob.json";
-import "./components/Cliant"
-import "./App.css";
-import Cliant from "./components/Cliant";
 
-const App = () => {
-  const [state, setState] = useState({
-    web3: null,
-    contract: null,
-  });
+import './App.css';
+import Navbar from './components/Navbar/navbar.js';
+import Homepage from './components/Homepage/homepage.js';
+import About from './components/About/about.js';
+import Loginemp from './components/Login/loginemp.js';
+import Loginboss from './components/Login/loginboss.js';
+import Register from './components/Register/register.js';
+import Select from './components/Selectlogin/select.js';
+import Post from './components/Post_a_job/postajob.js';
+import Submission from './components/Submission/submission.js';
+import Job from './components/Job/job.js';
+import Jobdetails from './components/Jobdetails/jobdetails.js';
+import Cardasj from './components/Job/Cardasj';
+import {Route, Routes} from 'react-router-dom';
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const web3 = await getWeb3();
-        const networkId = await web3.eth.net.getId();
-
-        const deployedNetwork = Djob.networks[networkId];
-        console.log("Contract Address:", deployedNetwork.address);
-        const instance = new web3.eth.Contract(
-          Djob.abi,
-          deployedNetwork && deployedNetwork.address
-        );
-        setState({ web3, contract: instance });
-      } catch (error) {
-        alert("Falied to load web3 or contract.");
-        console.log(error);
-      }
-    };
-    init();
-  }, []);
-
+function App() {
   return (
-    <div className="App">
-      <Cliant state={state}> </Cliant>
-      {/* <Freelancer state={state} address={address}></Freelancer> */}
-    </div>
+    <>
+    <Navbar />
+    
+    <Routes>
+      <Route exact path="/" element={<Homepage />} />
+       <Route exact path="homepage" element={<Homepage />} />
+       <Route exact path="about" element={<About />} />
+       <Route exact path="select" element={<Select />} />
+       <Route exact path="postajob" element={<Post />} />
+       <Route exact path="register" element={<Register />} />
+       <Route exact path="loginemp" element={<Loginemp />} />
+       <Route exact path="loginboss" element={<Loginboss />} />
+       <Route exact path="job" element={<Job />} />
+       <Route exact path="jobdetails" element={<Jobdetails />} />
+       <Route exact path="submission" element={<Submission />} />
+   </Routes>
+   {/* <Job/> */}
+   {/* <Jobdetails /> */}
+   
+ 
+   
+   
+   </>
+   
+    
   );
-};
+}
+
 export default App;
